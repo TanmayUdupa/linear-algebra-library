@@ -1,12 +1,9 @@
 #pragma once
-
-#include <iostream>
 using namespace std;
 
 template <typename T, int nrows, int ncols>
 class Matrix {
-private:
-    
+private:    
     T** matrix;
 
 public:
