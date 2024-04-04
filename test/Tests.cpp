@@ -118,6 +118,36 @@ void test_matrix_subtraction() {
     intResult_subtract.print_matrix();
 }
 
+void test_matrix_multiplication() {
+    // Define matrices for testing
+    double arr1[2][3] = { {1.0, 2.0, 3.0}, {4.0, 5.0, 6.0} };
+    Matrix<double, 2, 3> mat1(arr1);
+
+    double arr2[3][2] = { {7.0, 8.0}, {9.0, 10.0}, {11.0, 12.0} };
+    Matrix<double, 3, 2> mat2(arr2);
+
+    // Perform matrix multiplication
+    Matrix<double, 2, 2> result1 = matrix_multiply(mat1, mat2);
+
+    // Print the result matrix
+    cout << "Matrix multiplication result:" << endl;
+    result1.print_matrix();
+
+    // Define matrices for testing
+    int arr3[2][3] = { {1, 2, 3}, {4, 5, 6} };
+    Matrix<int, 2, 3> mat3(arr3);
+
+    int arr4[3][2] = { {7, 8}, {9, 10}, {11, 12} };
+    Matrix<int, 3, 2> mat4(arr4);
+
+    // Perform matrix multiplication
+    Matrix<int, 2, 2> result2 = matrix_multiply(mat3, mat4);
+
+    // Print the result matrix
+    cout << "Matrix multiplication result (int):" << endl;
+    result2.print_matrix();
+}
+
 
 int main()
 {
@@ -132,6 +162,9 @@ int main()
 
     cout << "Test Case 4: Matrix subtraction" << endl;
     test_matrix_subtraction();
+
+    cout << "Test Case 5: Matrix multiplication" << endl;
+    test_matrix_multiplication();
 
     cout << "All test cases passed\n" << endl;
 
