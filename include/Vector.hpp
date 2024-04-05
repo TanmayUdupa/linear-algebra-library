@@ -42,10 +42,25 @@ public:
     {
         for (int i = 0; i < nrows; i++)
         {
-            cout << matrix[i] << " ";
+            cout << matrix[i] << endl;
         }
         cout << endl;
     }
+
+    template<int slice_rows>
+    Matrix<T, slice_rows, 1> slice_vec(int start_row, int end_row) 
+    {
+        if (start_row < 0 || end_row > nrows - 1 || start_row > end_row)
+        {
+            throw std::out_of_range("Slice indices are out of range");
+        }
+        Matrix<T, slice_rows, 1> result;
+        for (int i = start_row; i <= end_row; i++) 
+        {
+            result[i - start_row] = matrix[i];
+        }
+        return result;
+    } 
 
     // Other member functions specific to 1D Matrix
 };

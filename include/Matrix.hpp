@@ -111,5 +111,38 @@ public:
         }
     }
 
+    template<int slice_rows, int slice_cols>
+    Matrix<T, slice_rows, slice_cols> slice(int start_row, int end_row, int start_col, int end_col) 
+    {
+        if (start_row < 0 || end_row > nrows - 1 || start_col < 0 || end_col > ncols - 1 || start_row > end_row || start_col > end_col)
+        {
+            throw std::out_of_range("Slice indices are out of range");
+        }
+        Matrix<T, slice_rows, slice_cols> result;
+        for (int i = start_row; i <= end_row; i++) 
+        {
+            for (int j = start_col; j <= end_col; j++) 
+            {
+                result[i - start_row][j - start_col] = matrix[i][j];
+            }
+        }
+        return result;
+    } 
+
+    template<int slice_rows>
+    Matrix<T, slice_rows, 1> slice_vec(int start_row, int end_row, int col_no) 
+    {
+        if (start_row < 0 || end_row > nrows - 1 || start_row > end_row || col_no > ncols - 1)
+        {
+            throw std::out_of_range("Slice indices are out of range");
+        }
+        Matrix<T, slice_rows, 1> result;
+        for (int i = start_row; i <= end_row; i++) 
+        {
+            result[i - start_row] = matrix[i][col_no];
+        }
+        return result;
+    } 
+
     // Other member functions
 };
