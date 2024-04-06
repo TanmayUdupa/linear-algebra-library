@@ -1,4 +1,6 @@
+#pragma once
 #include "Matrix.hpp"
+
 
 // Template specialization for 1D Matrix (Vector)
 template <typename T, int nrows>
@@ -19,10 +21,19 @@ public:
     {
         matrix = new T[nrows];
         for (int i = 0; i < nrows; i++) 
-        {
+        {                                 
             matrix[i] = matrix2[i];
         }
     }
+
+// Vector(const T(&array)[nrows]) {
+//         matrix = new T[nrows];
+//         for (int i = 0; i < nrows; i++) {
+//             matrix[i] = array[i];
+//         }
+//     }
+
+
     ~Matrix()
     {
         delete[] matrix;
@@ -33,9 +44,51 @@ public:
         return nrows;
     };
 
+    const T& operator[](int index) const {
+        if (index < 0 || index >= nrows) {
+            throw std::out_of_range("Index out of range");
+        }
+        return matrix[index];
+    }
+
     T& operator[](int index)
     {
         return matrix[index];
+    }
+
+       // Copy constructor
+    Matrix(const Matrix& other) {
+        matrix = new T[nrows];
+        for (int i = 0; i < nrows; i++) {
+            matrix[i] = other.matrix[i];
+        }
+    }
+
+    // Copy assignment operator
+    Matrix& operator=(const Matrix& other) {
+        if (this != &other) {
+            delete[] matrix; // Deallocate current memory
+            matrix = new T[nrows]; // Allocate new memory
+            for (int i = 0; i < nrows; i++) {
+                matrix[i] = other.matrix[i]; // Copy data
+            }
+        }
+        return *this;
+    }
+
+    // Move constructor (C++11 and above)
+    Matrix(Matrix&& other) noexcept : matrix(nullptr) {
+        std::swap(matrix, other.matrix); // Move data
+    }
+
+    // Move assignment operator (C++11 and above)
+    Matrix& operator=(Matrix&& other) noexcept {
+        if (this != &other) {
+            delete[] matrix; // Deallocate current memory
+            matrix = nullptr;
+            std::swap(matrix, other.matrix); // Move data
+        }
+        return *this;
     }
 
     void print_vector()

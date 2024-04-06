@@ -2,6 +2,7 @@
 #include "../include/Matrix.hpp"
 #include "../include/Vector.hpp"
 #include "../include/Operations.hpp"
+#include "../include/Vector_Operations.hpp"
 using namespace std;
 
 void test_creation_matrix()
@@ -89,8 +90,6 @@ void test_matrix_addition() {
     auto intResult3 = matrix_add(intMat1, intMat2, intMat3, intResult1);
     cout << "Matrix addition of intMat1, intMat2, intMat3, and intResult1:" << endl;
     intResult3.print_matrix();
-
-    cout << endl;
 }
 
 void test_matrix_subtraction() {
@@ -118,8 +117,6 @@ void test_matrix_subtraction() {
     auto intResult_subtract = matrix_subtract(intMat1, intMat2);
     cout << "Matrix subtraction of intMat1 and intMat2:" << endl;
     intResult_subtract.print_matrix();
-
-    cout << endl;
 }
 
 void test_matrix_multiplication() {
@@ -150,32 +147,70 @@ void test_matrix_multiplication() {
     // Print the result matrix
     cout << "Matrix multiplication result (int):" << endl;
     result2.print_matrix();
-
-    cout << endl;
 }
 
-void test_slice()
-{
-    Matrix<int, 3, 3> mat;
-    int data[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-    Matrix<int, 3, 3> mat2(data);
+void test_vector_addition() {
+    // Define vectors for testing
+    int arr[3] = {1, 2, 3};
+    Vector<int, 3> vec1(arr); 
+    int arr1[3] = {1, 2, 3};
+    Vector<int, 3> vec2(arr1); 
+    int arr2[3] = {1, 2, 3};
+    Vector<int, 3> vec3(arr2); 
 
-    cout << "Original matrix:" << endl;
-    mat2.print_matrix();
+    // Perform vector addition
+    auto result1 = vector_add(vec1, vec2);
+    cout << "Vector addition of vec1 and vec2:" << endl;
+    result1.print_vector();
+    
+    // Perform vector addition with three vectors
+    auto result2 = vector_add(vec1, vec2, vec3);
+    cout << "Vector addition of vec1, vec2, and vec3:" << endl;
+    result2.print_vector();
 
-    cout << "Sliced matrix:" << endl;
-    auto row = mat2.slice<1, 3>(0, 0, 0, 2);
-    row.print_matrix();
+    // Define vectors for testing
+    double arr3[3] = {1.5, 2.5, 3.5};
+    Vector<double, 3> vec4(arr3); 
+    double arr4[3] = {0.5, 1.5, 2.5};
+    Vector<double, 3> vec5(arr4); 
+    double arr5[3] = {2.5, 3.5, 4.5};
+    Vector<double, 3> vec6(arr5); 
 
-    cout << "Slicing vector from matrix: " << endl;
-    Vector<int, 3> vec = mat2.slice_vec<3>(0, 2, 1);
-    vec.print_vector();
+    // Perform vector addition
+    auto result3 = vector_add(vec4, vec5);
+    cout << "Vector addition of vec1 and vec2:" << endl;
+    result3.print_vector();
+    
+    // Perform vector addition with three vectors
+    auto result4 = vector_add(vec4, vec5, vec6);
+    cout << "Vector addition of vec1, vec2, and vec3:" << endl;
+    result4.print_vector();
+}
 
-    cout << "Slicing a vector: " << endl;
-    auto vec2 = vec.slice_vec<2>(0, 1);
-    vec2.print_vector();
+void test_vector_subtraction() {
+    // Define vectors for testing
+    int arr1[3] = {1, 2, 3};
+    Vector<int, 3> vec1(arr1); 
+    int arr2[3] = {4, 5, 6};
+    Vector<int, 3> vec2(arr2); 
 
-    cout << endl;
+    // Perform vector subtraction
+    auto result = vector_subtract(vec1, vec2);
+    cout << "Vector subtraction of vec1 and vec2:" << endl;
+    result.print_vector();
+
+    // Add more test cases as needed
+
+    // Define vectors for testing
+    double arr3[3] = {3.5, 4.5, 5.5};
+    Vector<double, 3> vec3(arr3); 
+    double arr4[3] = {1.5, 2.5, 3.5};
+    Vector<double, 3> vec4(arr4); 
+
+    // Perform vector subtraction
+    auto result1 = vector_subtract(vec3, vec4);
+    cout << "Vector subtraction of vec1 and vec2:" << endl;
+    result1.print_vector();
 }
 
 int main()
@@ -195,8 +230,11 @@ int main()
     cout << "Test Case 5: Matrix multiplication" << endl;
     test_matrix_multiplication();
 
-    cout << "Test Case 6: Slicing matrix / vector" << endl;
-    test_slice();
+    cout << "Test Case 6: Vector addition" << endl;
+    test_vector_addition();
+
+    cout << "Test Case 6: Vector subtraction" << endl;
+    test_vector_subtraction();
 
     cout << "All test cases passed\n" << endl;
 
