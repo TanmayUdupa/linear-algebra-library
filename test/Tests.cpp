@@ -3,6 +3,7 @@
 #include "../include/Vector.hpp"
 #include "../include/Operations.hpp"
 #include "../include/Vector_Operations.hpp"
+#include "../include/Matrix_transpose.hpp"
 using namespace std;
 
 void test_creation_matrix()
@@ -213,6 +214,29 @@ void test_vector_subtraction() {
     result1.print_vector();
 }
 
+void test_matrix_transpose() {
+    double arr[2][3] = {{1, 2, 3}, {4, 5, 6}};
+    Matrix<double, 2, 3> mat(arr);
+
+    // Test transpose of a non-square matrix
+    auto transposed = MatrixOperations::transpose(mat);
+    std::cout << "Original matrix:" << std::endl;
+    mat.print_matrix();
+    std::cout << "Transposed matrix:" << std::endl;
+    transposed.print_matrix();
+
+    // Additional test case with a square matrix
+    int arr2[2][2] = { {1, 2}, {3, 4} };
+    Matrix<int, 2, 2> squareMat(arr2);
+
+    // Test transpose of a square matrix
+    auto squareTransposed = MatrixOperations::transpose(squareMat);
+    std::cout << "Original square matrix:" << std::endl;
+    squareMat.print_matrix();
+    std::cout << "Transposed square matrix:" << std::endl;
+    squareTransposed.print_matrix();
+}
+
 int main()
 {
     cout << "Test Case 1: Creating matrix and accessing, editing elements" << endl;
@@ -235,6 +259,9 @@ int main()
 
     cout << "Test Case 6: Vector subtraction" << endl;
     test_vector_subtraction();
+
+    cout << "Test Case 3: Matrix Transpose" << endl;
+    test_matrix_transpose();
 
     cout << "All test cases passed\n" << endl;
 
