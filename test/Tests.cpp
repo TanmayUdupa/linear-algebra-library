@@ -7,6 +7,8 @@
 #include "../include/Matrix_determinant.hpp"
 #include "../include/Matrix_determinant.cpp"
 #include "../include/Matrix_transpose.cpp"
+#include "../include/MatrixQR.hpp"
+// #include "../include/MatrixQR.cpp"
 using namespace std;
 
 void test_creation_matrix()
@@ -257,6 +259,42 @@ void test_determinant() {
     cout << "Determinant of the matrix: " << det << endl;
 }
 
+void test_qr_decomposition() {
+    // Define a double square matrix for QR decomposition
+    double arr[3][3] = { {1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0} };
+    Matrix<double, 3, 3> mat(arr);
+    cout << "Original matrix for QR decomposition:" << endl;
+    mat.print_matrix();
+
+    // Perform QR decomposition
+    MatrixQR<double, 3, 3> qr(mat);
+    Matrix<double, 3, 3> Q = qr.getQ();
+    Matrix<double, 3, 3> R = qr.getR();
+
+    // Print the Q and R matrices
+    cout << "Orthogonal Q matrix:" << endl;
+    Q.print_matrix();
+    cout << "Upper triangular R matrix:" << endl;
+    R.print_matrix();
+
+    // Additional test case with a non-square matrix
+    double arr2[3][2] = { {1.0, 2.0}, {3.0, 4.0}, {5.0, 6.0} };
+    Matrix<double, 3, 2> mat2(arr2);
+    cout << "Original non-square matrix for QR decomposition:" << endl;
+    mat2.print_matrix();
+
+    // Perform QR decomposition
+    MatrixQR<double, 3, 2> qr2(mat2);
+    Matrix<double, 3, 2> Q2 = qr2.getQ();
+    Matrix<double, 2, 2> R2 = qr2.getR();  // R is 2x2 for a 3x2 matrix
+
+    // Print the Q and R matrices
+    cout << "Orthogonal Q matrix (non-square):" << endl;
+    Q2.print_matrix();
+    cout << "Upper triangular R matrix (non-square):" << endl;
+    R2.print_matrix();
+}
+
 int main()
 {
     cout << "Test Case 1: Creating matrix and accessing, editing elements" << endl;
@@ -285,6 +323,9 @@ int main()
 
     cout << "Test Case 9: Determining the determinant of a matrix" << endl;
     test_determinant();
+
+    cout << "Test Case 9: Determining the QR decomposition of a matrix" << endl;
+    test_qr_decomposition();
    
 
     cout << "All test cases passed\n" << endl;
