@@ -4,6 +4,9 @@
 #include "../include/Operations.hpp"
 #include "../include/Vector_Operations.hpp"
 #include "../include/Matrix_transpose.hpp"
+#include "../include/Matrix_determinant.hpp"
+#include "../include/Matrix_determinant.cpp"
+#include "../include/Matrix_transpose.cpp"
 using namespace std;
 
 void test_creation_matrix()
@@ -237,6 +240,23 @@ void test_matrix_transpose() {
     squareTransposed.print_matrix();
 }
 
+void test_determinant() {
+    //cout << "Test Case 9: Determining the determinant of a matrix" << endl;
+    double arr1[2][3] = {{1.0, 2.5, 1.0}, {3.0,  4.0, 1.0}};
+    Matrix<double,2,3> mat1(arr1);
+    mat1.print_matrix();
+    double det1 = MatrixOperations::determinant(mat1);
+    cout << "Determinant of the matrix: " << det1 << endl;
+
+
+    double arr[3][3] = { {1.0, 7.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0} }; 
+    Matrix<double, 3, 3> mat(arr);
+    cout << "Original matrix:" << endl;
+    mat.print_matrix();
+    double det = MatrixOperations::determinant(mat);
+    cout << "Determinant of the matrix: " << det << endl;
+}
+
 int main()
 {
     cout << "Test Case 1: Creating matrix and accessing, editing elements" << endl;
@@ -257,11 +277,15 @@ int main()
     cout << "Test Case 6: Vector addition" << endl;
     test_vector_addition();
 
-    cout << "Test Case 6: Vector subtraction" << endl;
+    cout << "Test Case 7: Vector subtraction" << endl;
     test_vector_subtraction();
 
-    cout << "Test Case 3: Matrix Transpose" << endl;
+    cout << "Test Case 8: Matrix Transpose" << endl;
     test_matrix_transpose();
+
+    cout << "Test Case 9: Determining the determinant of a matrix" << endl;
+    test_determinant();
+   
 
     cout << "All test cases passed\n" << endl;
 
