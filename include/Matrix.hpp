@@ -1,4 +1,5 @@
 #pragma once
+#include<iostream>
 using namespace std;
 
 template <typename T, int nrows, int ncols>
@@ -48,6 +49,17 @@ public:
         }
     }
 
+    // Const operator[] for read-only access
+const T* operator[](int index) const {
+    return matrix[index];
+}
+
+// Non-const operator[] for read and write access
+T* operator[](int index) {
+    return matrix[index];
+}
+
+
 
     ~Matrix()
     {
@@ -90,15 +102,15 @@ public:
         return *this;
     }
 
-    const T* operator[](int index) const {
-        return matrix[index];
-    }
+    // const T* operator[](int index) const {
+    //     return matrix[index];
+    // }
 
 
-    T* operator[](int index)
-    {
-        return matrix[index];
-    }
+    // T* operator[](int index)
+    // {
+    //     return matrix[index];
+    // }
 
     void print_matrix()
     {
@@ -144,6 +156,20 @@ public:
         }
         return result;
     } 
+
+    //  template<int concat_dim>
+    // Matrix<T, nrows, ncols + concat_dim> concat(const Matrix<T, nrows, concat_dim>& other) {
+    //     Matrix<T, nrows, ncols + concat_dim> result;
+    //     for (int i = 0; i < nrows; ++i) {
+    //         for (int j = 0; j < ncols; ++j) {
+    //             result[i][j] = matrix[i][j];  // Copy elements from the first matrix
+    //         }
+    //         for (int j = 0; j < concat_dim; ++j) {
+    //             result[i][ncols + j] = other[i][j];  // Concatenate elements from the second matrix
+    //         }
+    //     }
+    //     return result;
+    // }
 
     // Other member functions
 };
