@@ -221,21 +221,20 @@ void test_vector_subtraction() {
 }
 
 void test_matrix_transpose() {
+     // rectangular matrix
     double arr[2][3] = {{1, 2, 3}, {4, 5, 6}};
     Matrix<double, 2, 3> mat(arr);
 
-    // Test transpose of a non-square matrix
     auto transposed = MatrixOperations::transpose(mat);
     std::cout << "Original matrix:" << std::endl;
     mat.print_matrix();
     std::cout << "Transposed matrix:" << std::endl;
     transposed.print_matrix();
 
-    // Additional test case with a square matrix
+    // square matrix
     int arr2[2][2] = { {1, 2}, {3, 4} };
     Matrix<int, 2, 2> squareMat(arr2);
 
-    // Test transpose of a square matrix
     auto squareTransposed = MatrixOperations::transpose(squareMat);
     std::cout << "Original square matrix:" << std::endl;
     squareMat.print_matrix();
@@ -244,7 +243,6 @@ void test_matrix_transpose() {
 }
 
 void test_determinant() {
-    //cout << "Test Case 9: Determining the determinant of a matrix" << endl;
     double arr1[2][3] = {{1.0, 2.5, 1.0}, {3.0,  4.0, 1.0}};
     Matrix<double,2,3> mat1(arr1);
     mat1.print_matrix();
@@ -261,7 +259,7 @@ void test_determinant() {
 }
 
 void test_qr_decomposition() {
-    // Define a double square matrix for QR decomposition
+    //double square matrix
     double arr[3][3] = { {1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0} };
     Matrix<double, 3, 3> mat(arr);
     cout << "Original matrix for QR decomposition:" << endl;
@@ -272,59 +270,37 @@ void test_qr_decomposition() {
     Matrix<double, 3, 3> Q = qr.getQ();
     Matrix<double, 3, 3> R = qr.getR();
 
-    // Print the Q and R matrices
     cout << "Orthogonal Q matrix:" << endl;
     Q.print_matrix();
     cout << "Upper triangular R matrix:" << endl;
     R.print_matrix();
 
-    // Additional test case with a non-square matrix
+    // double rectangular matrix
     double arr2[3][2] = { {1.0, 2.0}, {3.0, 4.0}, {5.0, 6.0} };
     Matrix<double, 3, 2> mat2(arr2);
     cout << "Original non-square matrix for QR decomposition:" << endl;
     mat2.print_matrix();
 
-    // Perform QR decomposition
     MatrixQR<double, 3, 2> qr2(mat2);
     Matrix<double, 3, 2> Q2 = qr2.getQ();
     Matrix<double, 2, 2> R2 = qr2.getR();  // R is 2x2 for a 3x2 matrix
 
-    // Print the Q and R matrices
     cout << "Orthogonal Q matrix (non-square):" << endl;
     Q2.print_matrix();
     cout << "Upper triangular R matrix (non-square):" << endl;
     R2.print_matrix();
 
-    // Test case for float
-    // float arr3[3][3] = { {1.0f, 2.45f, 3.0f}, {4.0f, 5.78f, 6.0f}, {7.0f, 8.0f, 9.0f} };
-    // Matrix<float, 3, 3> mat3(arr3);
-    // cout << "Original float matrix for QR decomposition:" << endl;
-    // mat3.print_matrix();
-
-    // // Perform QR decomposition for float
-    // MatrixQR<float, 3, 3> qr3(mat3);
-    // Matrix<float, 3, 3> Q3 = qr3.getQ();
-    // Matrix<float, 3, 3> R3 = qr3.getR();
-
-    // // Print the Q and R matrices for float
-    // cout << "Orthogonal Q matrix (float):" << endl;
-    // Q3.print_matrix();
-
-    // cout << "Upper triangular R matrix (float):" << endl;
-    // R3.print_matrix();
-
+    //float square matrix
     float arr3[3][3] = {{1.0f, 2.45537895693847f, 3.0f}, {4.0f, 5.78654654654f, 6.0f}, {7.0f, 8.0f, 9.0f}};
     Matrix<float, 3, 3> mat3(arr3);
     cout << "Original float matrix for QR decomposition:" << endl;
     mat3.print_matrix();
 
-    // Perform QR decomposition for float
     MatrixQR<float, 3, 3> qr3(mat3);
     qr.lambda_sqrt(25.78);
     Matrix<float, 3, 3> Q3 = qr3.getQ();
     Matrix<float, 3, 3> R3 = qr3.getR();
 
-    // Print the Q and R matrices for float
     cout << "Orthogonal Q matrix (float):" << endl;
     Q3.print_matrix();
 
@@ -373,6 +349,33 @@ void test_element_wise()
     custom_vector.print_vector();  
 }
 
+void test_matrix_normalization() {
+    // only works for square matrices
+    // double
+    double arr[3][3] = { {1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0} };
+    Matrix<double, 3, 3> mat(arr);
+    cout << "Original matrix for normalization:" << endl;
+    mat.print_matrix();
+    mat.normalize();
+
+    //int
+    int arr2[2][2] = { {3, 6}, {9, 12} };
+    Matrix<int, 2, 2> mat2(arr2);
+    cout << "Original integer matrix for normalization:" << endl;
+    mat2.print_matrix();
+    mat2.normalize();
+
+
+    //float
+    float arr3[3][3] = { {100.7f, 18.5f, 5.5f}, {123.8f, 0.75f, 56.5f}, {7.5f, 8.5f, 9.5f} };
+    Matrix<float, 3, 3> mat3(arr3);
+    cout << "Original float matrix for normalization:" << endl;
+    mat3.print_matrix();
+    mat3.normalize();
+
+}
+
+
 int main()
 {
     cout << "Test Case 1: Creating matrix and accessing, editing elements" << endl;
@@ -410,6 +413,9 @@ int main()
 
     cout << "Test Case 12: Applying elementwise operations to matrix / vector" << endl;
     test_element_wise();
+
+    cout << "Test Case 13: Normalised matrices using fold expression" << endl;
+    test_matrix_normalization();
 
     cout << "All test cases passed\n" << endl;
 
