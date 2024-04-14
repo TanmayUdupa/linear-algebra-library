@@ -1,4 +1,33 @@
 #include "Matrix.hpp"
+#include<iostream>
+using namespace std;
+#include <type_traits>
+
+// Custom implementation of pow function for integer powers
+template <typename T>
+T custom_pow(T base, int exponent) {
+    if (exponent < 0) {
+        return static_cast<T>(1) / custom_pow(base, -exponent);
+    } else if (exponent == 0) {
+        return static_cast<T>(1);
+    } else {
+        T result = static_cast<T>(1);
+        for (int i = 0; i < exponent; ++i) {
+            result *= base;
+        }
+        return result;
+    }
+}
+
+
+
+
+template<typename T>
+struct MatrixTraits {
+    static constexpr bool is_floating_point = std::is_floating_point_v<T>;
+    static constexpr int precision = 2;  // Define the precision here
+};
+
 
 template<typename T, int nrows, int ncols>
 class MatrixQR {
@@ -15,9 +44,17 @@ private:
             guess = (guess + value / guess) / static_cast<T>(2);
             diff = guess * guess - value;
         }
-
         return guess;
     }
+
+  public:
+    template <typename U>
+    void lambda_sqrt(U value) {
+        auto sqrt_func = [this](U val) { return custom_sqrt(val); };
+        U result = sqrt_func(value);
+        std::cout << "Square root of " << value << " is " << result << std::endl;
+    }
+
 
 public:
     MatrixQR(const Matrix<T, nrows, ncols>& A) {
@@ -32,7 +69,19 @@ public:
             for (int i = k; i < nrows; ++i) {
                 norm += A_copy[i][k] * A_copy[i][k];
             }
-            norm = custom_sqrt(norm);  // Use custom_sqrt function
+           if constexpr (MatrixTraits<T>::is_floating_point) {
+                // Use specialized behavior for floating-point types
+                norm = std::abs(norm);
+                // Example precision control for float
+                if constexpr (MatrixTraits<T>::precision) {
+                T epsilon = custom_pow(T(10), -MatrixTraits<T>::precision);
+                    if (norm < epsilon) norm = T(0);
+                }
+} else {
+    norm = custom_sqrt(norm);  // Use custom_sqrt function for non-floating-point types
+}
+
+            
             R[k][k] = norm;
 
             for (int i = k; i < nrows; ++i) {
@@ -52,6 +101,10 @@ public:
             }
         }
     }
+
+
+
+
 
     Matrix<T, nrows, ncols> getQ() const {
         return Q;
