@@ -293,6 +293,42 @@ void test_qr_decomposition() {
     Q2.print_matrix();
     cout << "Upper triangular R matrix (non-square):" << endl;
     R2.print_matrix();
+
+    // Test case for float
+    // float arr3[3][3] = { {1.0f, 2.45f, 3.0f}, {4.0f, 5.78f, 6.0f}, {7.0f, 8.0f, 9.0f} };
+    // Matrix<float, 3, 3> mat3(arr3);
+    // cout << "Original float matrix for QR decomposition:" << endl;
+    // mat3.print_matrix();
+
+    // // Perform QR decomposition for float
+    // MatrixQR<float, 3, 3> qr3(mat3);
+    // Matrix<float, 3, 3> Q3 = qr3.getQ();
+    // Matrix<float, 3, 3> R3 = qr3.getR();
+
+    // // Print the Q and R matrices for float
+    // cout << "Orthogonal Q matrix (float):" << endl;
+    // Q3.print_matrix();
+
+    // cout << "Upper triangular R matrix (float):" << endl;
+    // R3.print_matrix();
+
+    float arr3[3][3] = {{1.0f, 2.45537895693847f, 3.0f}, {4.0f, 5.78654654654f, 6.0f}, {7.0f, 8.0f, 9.0f}};
+    Matrix<float, 3, 3> mat3(arr3);
+    cout << "Original float matrix for QR decomposition:" << endl;
+    mat3.print_matrix();
+
+    // Perform QR decomposition for float
+    MatrixQR<float, 3, 3> qr3(mat3);
+    qr.lambda_sqrt(25.78);
+    Matrix<float, 3, 3> Q3 = qr3.getQ();
+    Matrix<float, 3, 3> R3 = qr3.getR();
+
+    // Print the Q and R matrices for float
+    cout << "Orthogonal Q matrix (float):" << endl;
+    Q3.print_matrix();
+
+    cout << "Upper triangular R matrix (float):" << endl;
+    R3.print_matrix();
 }
 
 int main()
