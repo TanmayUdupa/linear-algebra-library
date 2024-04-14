@@ -53,3 +53,24 @@ Matrix<T, nrows1, ncols2> matrix_multiply(const Matrix<T, nrows1, ncols1>& mat1,
 
     return result;
 }
+
+template <typename T, int nrows, int ncols, typename Func>
+Matrix<T, nrows, ncols> apply_elementwise(const Matrix<T, nrows, ncols>& matrix, Func&& func) {
+    Matrix<T, nrows, ncols> result;
+    for (int i = 0; i < nrows; ++i) {
+        for (int j = 0; j < ncols; ++j) {
+            result[i][j] = std::forward<Func>(func)(matrix[i][j]);
+        }
+    }
+    return result;
+}
+
+
+template <typename T, int nrows, typename Func>
+Vector<T, nrows> apply_elementwise(const Vector<T, nrows>& vector, Func&& func) {
+    Vector<T, nrows> result;
+    for (int i = 0; i < nrows; ++i) {
+        result[i] = std::forward<Func>(func)(vector[i]);
+    }
+    return result;
+}

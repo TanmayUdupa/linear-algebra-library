@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "../include/Matrix.hpp"
 #include "../include/Vector.hpp"
 #include "../include/Operations.hpp"
@@ -345,6 +346,33 @@ void test_lu_decomposition()
     U.print_matrix();
 }  
 
+void test_element_wise()
+{
+    double arr[3][3] = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+    Matrix<double, 3, 3> matrix(arr);
+    cout << "Matrix to be tested:" << endl;
+    matrix.print_matrix();
+
+    // Apply the square root function to each element
+    Matrix<double, 3, 3> sqrt_matrix = apply_elementwise(matrix, [](double x) { return sqrt(x); });
+    cout << "Applying square root to each element:" << endl;
+    sqrt_matrix.print_matrix();
+
+    // Apply a custom lambda function to each element
+    Matrix<double, 3, 3> custom_matrix = apply_elementwise(matrix, [](double x) { return x * x + 2.0 * x; });
+    cout << "Applying custom lambda function to each element:" << endl;
+    custom_matrix.print_matrix();   
+
+    int arr2[3] = {1, 2, 3};
+    Vector<int, 3> v(arr2);
+    cout << "Vector to be tested:" << endl;
+    v.print_vector();
+
+    auto custom_vector= apply_elementwise(v, [](double x) { return x * x + 2.0 * x; });
+    cout << "Applying custom lambda function to each element:" << endl;
+    custom_vector.print_vector();  
+}
+
 int main()
 {
     cout << "Test Case 1: Creating matrix and accessing, editing elements" << endl;
@@ -379,6 +407,9 @@ int main()
    
     cout << "Test Case 11: Determining the LU decomposition of a matrix" << endl;
     test_lu_decomposition();
+
+    cout << "Test Case 12: Applying elementwise operations to matrix / vector" << endl;
+    test_element_wise();
 
     cout << "All test cases passed\n" << endl;
 
