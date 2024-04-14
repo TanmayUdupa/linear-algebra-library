@@ -295,6 +295,20 @@ void test_qr_decomposition() {
     R2.print_matrix();
 }
 
+void test_lu_decomposition()
+{
+    Matrix<int, 3, 3> L;
+    Matrix<int, 3, 3> U;
+    int arr[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    Matrix<int, 3, 3> mat(arr);
+    mat.lu_decomposition(L, U);
+    cout << "L matrix:" << endl;
+    L.print_matrix();
+    cout << endl;
+    cout << "U matrix:" << endl;
+    U.print_matrix();
+}  
+
 int main()
 {
     cout << "Test Case 1: Creating matrix and accessing, editing elements" << endl;
@@ -324,9 +338,11 @@ int main()
     cout << "Test Case 9: Determining the determinant of a matrix" << endl;
     test_determinant();
 
-    cout << "Test Case 9: Determining the QR decomposition of a matrix" << endl;
+    cout << "Test Case 10: Determining the QR decomposition of a matrix" << endl;
     test_qr_decomposition();
    
+    cout << "Test Case 11: Determining the LU decomposition of a matrix" << endl;
+    test_lu_decomposition();
 
     cout << "All test cases passed\n" << endl;
 
