@@ -375,6 +375,30 @@ void test_matrix_normalization() {
 
 }
 
+void test_matrix_inverse() {
+    // Define a square matrix for testing
+    double arr[3][3] = { {1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0} };
+    Matrix<double, 3, 3> mat(arr);
+    cout << "Original matrix for inverse calculation:" << endl;
+    mat.print_matrix();
+    Matrix<double, 3, 3> inversedMat = inverse(mat);
+    cout << "Inverse matrix:" << endl;
+    inversedMat.print_matrix();
+}
+
+void test_matrix_adjoint() {
+    // Define a square matrix for testing
+    double arr[3][3] = { {1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0} };
+    Matrix<double, 3, 3> mat(arr);
+    cout << "Original matrix for adjoint calculation:" << endl;
+    mat.print_matrix();
+
+    // Calculate the adjoint of the matrix
+    Matrix<double,3,3> adjointMat = adjoint(mat);
+    cout << "Adjoint matrix:" << endl;
+    adjointMat.print_matrix();
+}
+
 
 int main()
 {
@@ -416,6 +440,12 @@ int main()
 
     cout << "Test Case 13: Normalised matrices using fold expression" << endl;
     test_matrix_normalization();
+
+    cout << "Test Case 14: Inverse of matrix with template friendship" << endl;
+    test_matrix_inverse();
+
+    cout << "Test Case 15: Adjoint of matrix with template friendship" << endl;
+    test_matrix_adjoint();
 
     cout << "All test cases passed\n" << endl;
 

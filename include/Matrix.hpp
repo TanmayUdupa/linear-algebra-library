@@ -14,7 +14,21 @@ class Matrix {
 private:    
     T** matrix;
 
+    template <typename U, int rows, int cols>
+    struct Helper {
+        friend Matrix<U, rows, cols> inverse(const Matrix<U, rows, cols>& mat);
+        friend Matrix<U, rows, cols> adjoint(const Matrix<U, rows, cols>& mat);
+    };
+
 public:
+
+    // template <typename T, int nrows, int ncols>
+    // friend Matrix<T, nrows, ncols> inverse(const Matrix<T, nrows, ncols>& mat);
+
+    // template <typename T, int nrows, int ncols>
+    // friend Matrix<T, nrows, ncols> adjoint(const Matrix<T, nrows, ncols>& mat);
+
+
     Matrix() 
     {
         matrix = new T*[nrows];
@@ -232,6 +246,24 @@ template <int... Is, int... Js>
         }
     
 };
+
+// Function to calculate the inverse of a square matrix
+template <typename T, int nrows, int ncols>
+Matrix<T, nrows, ncols> inverse(const Matrix<T, nrows, ncols>& mat) {
+    static_assert(nrows == ncols, "Inverse can only be calculated for square matrices");
+    Matrix<T, nrows, ncols> inverted;
+    // Implement inverse logic manually
+    return inverted;
+}
+
+// Function to calculate the adjoint of a square matrix
+template <typename T, int nrows, int ncols>
+Matrix<T, nrows, ncols> adjoint(const Matrix<T, nrows, ncols>& mat) {
+    static_assert(nrows == ncols, "Adjoint can only be calculated for square matrices");
+    Matrix<T, nrows, ncols> adj;
+    // Implement adjoint logic manually
+    return adj;
+}
 
 template <typename T, int nrows, int ncols>
 void check_square_matrix(const Matrix<T, nrows, ncols>& matrix) {
