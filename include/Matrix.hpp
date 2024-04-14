@@ -1,7 +1,12 @@
 #pragma once
 #include<iostream>
+#include <stdexcept>
+#include <type_traits>
 #include <iomanip>
 using namespace std;
+
+template <typename T, int nrows, int ncols>
+concept is_square_matrix = nrows == ncols;
 
 
 template <typename T, int nrows, int ncols>
@@ -263,6 +268,35 @@ void print_matrix() const
         return result;
     } 
 
+       void lu_decomposition(Matrix<T, nrows, ncols>& L, Matrix<T, nrows, ncols>& U) {
+        L = Matrix<T, nrows, ncols>(); // Lower triangular matrix
+        U = Matrix<T, nrows, ncols>(); // Upper triangular matrix
+
+        check_square_matrix(*this);
+
+        // Initialize L as identity matrix and U as a copy of this matrix
+        for (int i = 0; i < nrows; ++i) {
+            for (int j = 0; j < ncols; ++j) {
+                if (i == j)
+                    L[i][j] = 1;
+                U[i][j] = matrix[i][j];
+            }
+        }
+
+        for (int k = 0; k < nrows - 1; ++k) {
+            for (int i = k + 1; i < nrows; ++i) {
+                if (U[k][k] == 0) {
+                    throw invalid_argument("LU decomposition failed: Zero pivot encountered");
+                }
+                T factor = U[i][k] / U[k][k];
+                L[i][k] = factor;
+                for (int j = k; j < ncols; ++j) {
+                    U[i][j] -= factor * U[k][j];
+                }
+            }
+        }
+        }
+
     //  template<int concat_dim>
     // Matrix<T, nrows, ncols + concat_dim> concat(const Matrix<T, nrows, concat_dim>& other) {
     //     Matrix<T, nrows, ncols + concat_dim> result;
@@ -279,3 +313,8 @@ void print_matrix() const
 
     // Other member functions
 };
+
+template <typename T, int nrows, int ncols>
+void check_square_matrix(const Matrix<T, nrows, ncols>& matrix) {
+    static_assert(is_square_matrix<T, nrows, ncols>, "Matrix must be a square matrix");
+}
