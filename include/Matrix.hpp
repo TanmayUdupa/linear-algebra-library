@@ -109,93 +109,6 @@ T* operator[](int index) {
         return *this;
     }
 
-    // const T* operator[](int index) const {
-    //     return matrix[index];
-    // }
-
-
-    // T* operator[](int index)
-    // {
-    //     return matrix[index];
-    // }
-
-    // void print_matrix()
-    // {
-    //     for (int i = 0; i < nrows; i++)
-    //     {
-    //         for (int j = 0; j < ncols; j++)
-    //         {
-    //             cout << matrix[i][j] << " ";
-    //         }
-    //         cout << endl;
-    //     }
-    // }
-
-//     void print_matrix()
-// {
-//     for (int i = 0; i < nrows; i++)
-//     {
-//         for (int j = 0; j < ncols; j++)
-//         {
-//             if constexpr (std::is_floating_point_v<decltype(matrix[i][j])>) {
-//                 // Custom precision handling for floating-point numbers
-//                 float value = matrix[i][j];
-//                 int integerPart = static_cast<int>(value);
-//                 float decimalPart = value - integerPart;
-//                 int precision = 4; // Specify the desired precision
-
-//                 // Print the integer part
-//                 std::cout << integerPart << ".";
-
-//                 // Print the decimal part with custom precision
-//                 for (int k = 0; k < precision; ++k) {
-//                     decimalPart *= 10;
-//                     int digit = static_cast<int>(decimalPart);
-//                     std::cout << digit;
-//                     decimalPart -= digit;
-//                 }
-//                 std::cout << " ";
-//             } else {
-//                 // Print other types as they are
-//                 std::cout << matrix[i][j] << " ";
-//             }
-//         }
-//         std::cout << std::endl;
-//     }
-// }
-
-// void print_matrix() const
-// {
-//     for (int i = 0; i < nrows; i++)
-//     {
-//         for (int j = 0; j < ncols; j++)
-//         {
-//             if constexpr (std::is_floating_point_v<T>) {
-//                 // Custom precision handling for floating-point numbers
-//                 float value = static_cast<float>(matrix[i][j]);
-//                 int integerPart = static_cast<int>(value);
-//                 float decimalPart = value - integerPart;
-//                 int precision = 4; // Specify the desired precision
-
-//                 // Print the integer part
-//                 std::cout << integerPart << ".";
-
-//                 // Print the decimal part with custom precision
-//                 for (int k = 0; k < precision; ++k) {
-//                     decimalPart *= 10;
-//                     int digit = static_cast<int>(decimalPart);
-//                     std::cout << digit;
-//                     decimalPart -= digit;
-//                 }
-//                 std::cout << " ";
-//             } else {
-//                 // Print other types as they are
-//                 std::cout << matrix[i][j] << " ";
-//             }
-//         }
-//         std::cout << std::endl;
-//     }
-// }
 
 void print_matrix() const
 {
@@ -268,6 +181,27 @@ void print_matrix() const
         return result;
     } 
 
+
+template <int... Is, int... Js>
+    Matrix<T, sizeof...(Is), sizeof...(Js)> normalize(std::integer_sequence<int, Is...>, std::integer_sequence<int, Js...>) {
+        T min_val = *std::min_element(&matrix[0][0], &matrix[0][0] + nrows * ncols);
+        T max_val = *std::max_element(&matrix[0][0], &matrix[0][0] + nrows * ncols);
+
+        Matrix<T, sizeof...(Is), sizeof...(Js)> normalized;
+        (((normalized[Is][Js] = (matrix[Is][Js] - min_val) / (max_val - min_val))), ...);
+
+        // Print the normalized matrix
+        std::cout << "Normalized matrix:" << std::endl;
+        normalized.print_matrix();
+
+        return normalized;
+    }
+
+    Matrix<T, nrows, ncols> normalize() {
+        return normalize(std::make_integer_sequence<int, nrows>{}, std::make_integer_sequence<int, ncols>{});
+    }
+
+
        void lu_decomposition(Matrix<T, nrows, ncols>& L, Matrix<T, nrows, ncols>& U) {
         L = Matrix<T, nrows, ncols>(); // Lower triangular matrix
         U = Matrix<T, nrows, ncols>(); // Upper triangular matrix
@@ -296,22 +230,7 @@ void print_matrix() const
             }
         }
         }
-
-    //  template<int concat_dim>
-    // Matrix<T, nrows, ncols + concat_dim> concat(const Matrix<T, nrows, concat_dim>& other) {
-    //     Matrix<T, nrows, ncols + concat_dim> result;
-    //     for (int i = 0; i < nrows; ++i) {
-    //         for (int j = 0; j < ncols; ++j) {
-    //             result[i][j] = matrix[i][j];  // Copy elements from the first matrix
-    //         }
-    //         for (int j = 0; j < concat_dim; ++j) {
-    //             result[i][ncols + j] = other[i][j];  // Concatenate elements from the second matrix
-    //         }
-    //     }
-    //     return result;
-    // }
-
-    // Other member functions
+    
 };
 
 template <typename T, int nrows, int ncols>
