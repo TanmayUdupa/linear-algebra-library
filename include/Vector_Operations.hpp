@@ -1,13 +1,15 @@
 #pragma once
 #include "Vector.hpp"
 
-// Base case for variadic template vector addition
+//Vector additon utilises variadic template 
+
+// Base case for vector addition
 template <typename T, int nrows>
 Vector<T, nrows> vector_add(const Vector<T, nrows>& vec) {
     return vec;
 }
 
-// Recursive case for variadic template vector addition
+// Recursive case 
 template <typename T, int nrows, typename... Rest>
 Vector<T, nrows> vector_add(const Vector<T, nrows>& vec1, const Vector<T, nrows>& vec2, const Rest&... rest) {
     // Perform element-wise addition for the first two vectors

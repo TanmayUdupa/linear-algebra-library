@@ -5,6 +5,9 @@
 #include <iomanip>
 using namespace std;
 
+//Matrix normalisation : utilised fold expressions
+//Type trait usage for displaying float datatype test cases with 4 digit precision
+
 template <typename T, int nrows, int ncols>
 concept is_square_matrix = nrows == ncols;
 
@@ -133,16 +136,14 @@ void print_matrix() const {
         for (int i = 0; i < nrows; i++) {
             for (int j = 0; j < ncols; j++) {
                 if constexpr (std::is_same_v<T, float>) {
-                    // Custom precision handling for float numbers
+                    //type trait usage : is_same_v used to compare if the template type is float, if so diplays a 4 precision value
                     float value = matrix[i][j];
                     int integerPart = static_cast<int>(value);
                     float decimalPart = value - integerPart;
-                    int precision = 4; // Specify the desired precision
+                    int precision = 4; 
 
-                    // Print the integer part
                     std::cout << integerPart << ".";
 
-                    // Print the decimal part with custom precision
                     for (int k = 0; k < precision; ++k) {
                         decimalPart *= 10;
                         int digit = static_cast<int>(decimalPart);
@@ -151,7 +152,7 @@ void print_matrix() const {
                     }
                     std::cout << " ";
                 } else {
-                    // Print other types as they are
+                    // other types print as they are
                     std::cout << matrix[i][j] << " ";
                 }
             }
@@ -194,7 +195,7 @@ void print_matrix() const {
         return result;
     } 
 
-
+// used fold expressions here to implement matrix normalisation
 template <int... Is, int... Js>
     Matrix<T, sizeof...(Is), sizeof...(Js)> normalize(std::integer_sequence<int, Is...>, std::integer_sequence<int, Js...>) {
         T min_val = *std::min_element(&matrix[0][0], &matrix[0][0] + nrows * ncols);
@@ -246,21 +247,21 @@ template <int... Is, int... Js>
     
 };
 
-// Function to calculate the inverse of a square matrix
+//inverse of a square matrix declared as friend template function inside the class
 template <typename T, int nrows, int ncols>
 Matrix<T, nrows, ncols> inverse(const Matrix<T, nrows, ncols>& mat) {
     static_assert(nrows == ncols, "Inverse can only be calculated for square matrices");
     Matrix<T, nrows, ncols> inverted;
-    // Implement inverse logic manually
+    // logic for inverse not implemented
     return inverted;
 }
 
-// Function to calculate the adjoint of a square matrix
+//adjoint of a square matrix declared as friend template function inside the class
 template <typename T, int nrows, int ncols>
 Matrix<T, nrows, ncols> adjoint(const Matrix<T, nrows, ncols>& mat) {
     static_assert(nrows == ncols, "Adjoint can only be calculated for square matrices");
     Matrix<T, nrows, ncols> adj;
-    // Implement adjoint logic manually
+    // logic for adjoint not implemented 
     return adj;
 }
 

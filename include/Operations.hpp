@@ -1,23 +1,24 @@
 #pragma once
 #include "Matrix.hpp"
 
-// Base case for variadic template matrix addition
+//Matrix addition - uses variadic templates 
+//elementwise function takes lambda templates as arguments
+
+// Base case 
 template <typename T, int nrows, int ncols>
 Matrix<T, nrows, ncols> matrix_add(const Matrix<T, nrows, ncols>& mat) {
     return mat;
 }
 
-// Recursive case for variadic template matrix addition
+// Recursive case
 template <typename T, int nrows, int ncols, typename... Rest>
 Matrix<T, nrows, ncols> matrix_add(const Matrix<T, nrows, ncols>& mat1, const Matrix<T, nrows, ncols>& mat2, const Rest&... rest) {
-    // Perform element-wise addition for the first two matrices
     Matrix<T, nrows, ncols> result;
     for (int i = 0; i < nrows; ++i) {
         for (int j = 0; j < ncols; ++j) {
             result[i][j] = mat1[i][j] + mat2[i][j];
         }
     }
-    // Recursively add the remaining matrices
     return matrix_add(result, rest...);
 }
 

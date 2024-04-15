@@ -2,7 +2,7 @@
 #include "Matrix.hpp"
 #include "Matrix_common.hpp"
 
-////This file includes function declarations for Matrix_transpose.cpp
+//This file includes function declarations for Matrix_transpose.cpp
 
 namespace MatrixOperations {
 
