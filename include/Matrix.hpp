@@ -8,6 +8,7 @@ using namespace std;
 //Matrix normalisation : utilised fold expressions
 //Type trait usage for displaying float datatype test cases with 4 digit precision
 
+// concept to check if a matrix has the same number of rows and columns.
 template <typename T, int nrows, int ncols>
 concept is_square_matrix = nrows == ncols;
 
@@ -19,12 +20,16 @@ private:
 
 public:
 
+    // Friend function to calculate inverse of matrix
     template <typename U, int rows, int cols>
     friend Matrix<U, rows, cols> inverse(const Matrix<U, rows, cols>& mat);
+
+    // Friend function to calculate adjoint of matrix
     template <typename U, int rows, int cols>
     friend Matrix<U, rows, cols> adjoint(const Matrix<U, rows, cols>& mat);
 
 
+    // Default constructor - Initializes elements of matrix to zero
     Matrix() 
     {
         matrix = new T*[nrows];
@@ -40,6 +45,8 @@ public:
             }
         }
     };
+
+    // Parametrized constructor - To initialize elements of this matrix with a 2D array passed as parameter
     Matrix(T matrix2[nrows][ncols])
     {
         matrix = new T*[nrows];
@@ -56,6 +63,7 @@ public:
         }
     }
 
+    // Copy constructor
     Matrix(const Matrix& other) {
         matrix = new T*[nrows];
         for (int i = 0; i < nrows; i++) {
@@ -66,15 +74,15 @@ public:
         }
     }
 
-// overridden operator for accessing index - const
-const T* operator[](int index) const {
-    return matrix[index];
-}
+    // overridden operator for accessing index - const
+    const T* operator[](int index) const {
+        return matrix[index];
+    }
 
-// overridden operator for accessing index - non const
-T* operator[](int index) {
-    return matrix[index];
-}
+    // overridden operator for accessing index - non const
+    T* operator[](int index) {
+        return matrix[index];
+    }
 
     Matrix(T value) {
         matrix = new T*[nrows];
@@ -86,6 +94,7 @@ T* operator[](int index) {
         }
     }
 
+    // Destructor to delete memory that was allocated
     ~Matrix()
     {
         for (int i = 0; i < nrows; i++) 
@@ -95,16 +104,19 @@ T* operator[](int index) {
         delete[] matrix;
     };
 
+    // Returns number of rows of matrix
     int get_nrows() const
     {
         return nrows;
     };
+
+    // Return number of columns of matrix
     int get_ncols() const
     {
         return ncols;
     };
 
-      // Copy assignment operator
+    // Copy assignment operator
     Matrix& operator=(const Matrix& other) {
         if (this != &other) {
             // Deallocate current memory
@@ -127,41 +139,44 @@ T* operator[](int index) {
         return *this;
     }
 
+    //Function to print all elements of matrix
+    void print_matrix() const {
+        if constexpr (nrows == 1 && ncols == 1) {
+            // Special handling for 1x1 matrices
+            std::cout << matrix[0][0];
+        } else {
+            for (int i = 0; i < nrows; i++) {
+                for (int j = 0; j < ncols; j++) {
+                    if constexpr (std::is_same_v<T, float>) {
+                        // Custom precision handling for float numbers
+                        float value = matrix[i][j];
+                        int integerPart = static_cast<int>(value);
+                        float decimalPart = value - integerPart;
+                        int precision = 4; // Specify the desired precision
 
-void print_matrix() const {
-    if constexpr (nrows == 1 && ncols == 1) {
-        // Special handling for 1x1 matrices
-        std::cout << matrix[0][0];
-    } else {
-        for (int i = 0; i < nrows; i++) {
-            for (int j = 0; j < ncols; j++) {
-                if constexpr (std::is_same_v<T, float>) {
-                    //type trait usage : is_same_v used to compare if the template type is float, if so diplays a 4 precision value
-                    float value = matrix[i][j];
-                    int integerPart = static_cast<int>(value);
-                    float decimalPart = value - integerPart;
-                    int precision = 4; 
+                        // Print the integer part
+                        std::cout << integerPart << ".";
 
-                    std::cout << integerPart << ".";
-
-                    for (int k = 0; k < precision; ++k) {
-                        decimalPart *= 10;
-                        int digit = static_cast<int>(decimalPart);
-                        std::cout << digit;
-                        decimalPart -= digit;
+                        // Print the decimal part with custom precision
+                        for (int k = 0; k < precision; ++k) {
+                            decimalPart *= 10;
+                            int digit = static_cast<int>(decimalPart);
+                            std::cout << digit;
+                            decimalPart -= digit;
+                        }
+                        std::cout << " ";
+                    } 
+                    else {
+                        // Print other types as they are
+                        std::cout << matrix[i][j] << " ";
                     }
-                    std::cout << " ";
-                } else {
-                    // other types print as they are
-                    std::cout << matrix[i][j] << " ";
                 }
+                std::cout << std::endl;
             }
-            std::cout << std::endl;
         }
     }
-}
 
-
+    // Function to slice matrix
     template<int slice_rows, int slice_cols>
     Matrix<T, slice_rows, slice_cols> slice(int start_row, int end_row, int start_col, int end_col) 
     {
@@ -180,6 +195,7 @@ void print_matrix() const {
         return result;
     } 
 
+    // Function to slice vector from matrix
     template<int slice_rows>
     Matrix<T, slice_rows, 1> slice_vec(int start_row, int end_row, int col_no) 
     {
@@ -195,8 +211,8 @@ void print_matrix() const {
         return result;
     } 
 
-// used fold expressions here to implement matrix normalisation
-template <int... Is, int... Js>
+    // used fold expressions here to implement matrix normalisation (Make all elements of array to be between 0 and 1)
+    template <int... Is, int... Js>
     Matrix<T, sizeof...(Is), sizeof...(Js)> normalize(std::integer_sequence<int, Is...>, std::integer_sequence<int, Js...>) {
         T min_val = *std::min_element(&matrix[0][0], &matrix[0][0] + nrows * ncols);
         T max_val = *std::max_element(&matrix[0][0], &matrix[0][0] + nrows * ncols);
@@ -215,8 +231,8 @@ template <int... Is, int... Js>
         return normalize(std::make_integer_sequence<int, nrows>{}, std::make_integer_sequence<int, ncols>{});
     }
 
-
-       void lu_decomposition(Matrix<T, nrows, ncols>& L, Matrix<T, nrows, ncols>& U) {
+    // LU decomposition of matrix
+    void lu_decomposition(Matrix<T, nrows, ncols>& L, Matrix<T, nrows, ncols>& U) {
         L = Matrix<T, nrows, ncols>(); // Lower triangular matrix
         U = Matrix<T, nrows, ncols>(); // Upper triangular matrix
 
@@ -243,28 +259,29 @@ template <int... Is, int... Js>
                 }
             }
         }
-        }
+    }
     
 };
 
-//inverse of a square matrix declared as friend template function inside the class
+// inverse of a square matrix declared as friend template function inside the class
 template <typename T, int nrows, int ncols>
 Matrix<T, nrows, ncols> inverse(const Matrix<T, nrows, ncols>& mat) {
     static_assert(nrows == ncols, "Inverse can only be calculated for square matrices");
     Matrix<T, nrows, ncols> inverted;
-    // logic for inverse not implemented
+    // Implement inverse logic manually
     return inverted;
 }
 
-//adjoint of a square matrix declared as friend template function inside the class
+// adjoint of a square matrix declared as friend template function inside the class
 template <typename T, int nrows, int ncols>
 Matrix<T, nrows, ncols> adjoint(const Matrix<T, nrows, ncols>& mat) {
     static_assert(nrows == ncols, "Adjoint can only be calculated for square matrices");
     Matrix<T, nrows, ncols> adj;
-    // logic for adjoint not implemented 
+    // Implement adjoint logic manually
     return adj;
 }
 
+// Constraint to check if a Matrix is a square matrix
 template <typename T, int nrows, int ncols>
 void check_square_matrix(const Matrix<T, nrows, ncols>& matrix) {
     static_assert(is_square_matrix<T, nrows, ncols>, "Matrix must be a square matrix");
