@@ -1,4 +1,5 @@
 #include "Matrix_transpose.hpp"
+// Template specialisation has been used
 
 namespace MatrixOperations {
 
@@ -6,7 +7,7 @@ namespace MatrixOperations {
     Matrix<T, ncols, nrows> transpose(const Matrix<T, nrows, ncols>& input) {
         Matrix<T, ncols, nrows> result;
 
-        // Implement the transpose logic here
+        // transpose logic
         for (int i = 0; i < nrows; ++i) {
             for (int j = 0; j < ncols; ++j) {
                 result[j][i] = input[i][j];
@@ -20,7 +21,7 @@ namespace MatrixOperations {
     Matrix<T, size, size> transpose(const Matrix<T, size, size>& input) {
         Matrix<T, size, size> result;
 
-        // Implement specialized transpose logic for square matrices if needed
+        // specialised for square matrix - template specialisation
         for (int i = 0; i < size; ++i) {
             for (int j = 0; j < size; ++j) {
                 result[j][i] = input[i][j];
@@ -29,10 +30,4 @@ namespace MatrixOperations {
 
         return result;
     }
-
-    template <typename T, int nrows, int ncols>
-    Matrix<T, ncols, nrows> friend_transpose(const Matrix<T, nrows, ncols>& input) {
-        return transpose(input);
-    }
-
-}  // End of namespace MatrixOperations
+}  
