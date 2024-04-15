@@ -1,7 +1,6 @@
 #pragma once
 #include "Matrix.hpp" 
 #include "Vector.hpp"
-#include "Matrix_common.hpp"
 
 //This file includes function declarations for Matrix_determinant.cpp
 
