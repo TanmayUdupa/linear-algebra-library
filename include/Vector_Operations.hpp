@@ -31,3 +31,12 @@ Matrix<T, nrows, 1> vector_subtract(const Matrix<T, nrows, 1>& vec1, const Matri
 
     return result;
 }
+
+template <typename U, int nrows2>
+U dot_product(const Vector<U, nrows2>& vec1, const Vector<U, nrows2>& vec2) {
+    U result = 0;
+    for (int i = 0; i < nrows2; ++i) {
+        result += vec1[i] * vec2[i];
+    }
+    return result;
+}

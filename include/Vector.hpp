@@ -115,6 +115,9 @@ public:
         return result;
     } 
 
+    template <typename U, int nrows2, int ncols2>
+    friend T dot_product(const Matrix<U, nrows2, 1>& vec1, const Matrix<U, nrows2, 1>& vec2);
+
     // Other member functions specific to 1D Matrix
 };
 

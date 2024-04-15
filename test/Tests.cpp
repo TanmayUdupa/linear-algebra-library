@@ -462,6 +462,21 @@ void test_matrix_adjoint() {
     adjointMat.print_matrix();
 }
 
+void test_vector_dot_product()
+{
+    int arr[3] = {1, 2, 3};
+    Vector<int, 3> vec1(arr); 
+    cout << "Original integer vector 1: " << endl;
+    vec1.print_vector();
+    cout << endl;
+    int arr1[3] = {1, 2, 3};
+    Vector<int, 3> vec2(arr1); 
+    cout << "Original integer vector 2: " << endl;
+    vec2.print_vector();
+    cout << endl;
+    cout << "Dot product of vectors: " << dot_product(vec1, vec2) << endl;
+}
+
 
 int main()
 {
@@ -523,6 +538,10 @@ int main()
 
     cout << "Test Case 15: Adjoint of matrix with template friendship" << endl << "\n";
     test_matrix_adjoint();
+    cout << endl;
+
+    cout << "Test Case 16: Dot product of vector" << endl << "\n";
+    test_vector_dot_product();
     cout << endl;
 
     cout << "All test cases passed\n" << endl;

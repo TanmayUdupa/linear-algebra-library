@@ -14,13 +14,12 @@ class Matrix {
 private:    
     T** matrix;
 
-    template <typename U, int rows, int cols>
-    struct Helper {
-        friend Matrix<U, rows, cols> inverse(const Matrix<U, rows, cols>& mat);
-        friend Matrix<U, rows, cols> adjoint(const Matrix<U, rows, cols>& mat);
-    };
-
 public:
+
+    template <typename U, int rows, int cols>
+    friend Matrix<U, rows, cols> inverse(const Matrix<U, rows, cols>& mat);
+    template <typename U, int rows, int cols>
+    friend Matrix<U, rows, cols> adjoint(const Matrix<U, rows, cols>& mat);
 
 
     Matrix() 
