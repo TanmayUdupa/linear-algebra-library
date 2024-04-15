@@ -22,12 +22,6 @@ private:
 
 public:
 
-    // template <typename T, int nrows, int ncols>
-    // friend Matrix<T, nrows, ncols> inverse(const Matrix<T, nrows, ncols>& mat);
-
-    // template <typename T, int nrows, int ncols>
-    // friend Matrix<T, nrows, ncols> adjoint(const Matrix<T, nrows, ncols>& mat);
-
 
     Matrix() 
     {
@@ -70,17 +64,25 @@ public:
         }
     }
 
-    // Const operator[] for read-only access
+// overridden operator for accessing index - const
 const T* operator[](int index) const {
     return matrix[index];
 }
 
-// Non-const operator[] for read and write access
+// overridden operator for accessing index - non const
 T* operator[](int index) {
     return matrix[index];
 }
 
-
+    Matrix(T value) {
+        matrix = new T*[nrows];
+        for (int i = 0; i < nrows; i++) {
+            matrix[i] = new T[ncols];
+            for (int j = 0; j < ncols; j++) {
+                matrix[i][j] = value;  // Initialize all elements with the given value
+            }
+        }
+    }
 
     ~Matrix()
     {
@@ -124,42 +126,40 @@ T* operator[](int index) {
     }
 
 
-void print_matrix() const
-{
-    for (int i = 0; i < nrows; i++)
-    {
-        for (int j = 0; j < ncols; j++)
-        {
-            if constexpr (std::is_same_v<T, float>) {
-                // Custom precision handling for float numbers
-                float value = matrix[i][j];
-                int integerPart = static_cast<int>(value);
-                float decimalPart = value - integerPart;
-                int precision = 4; // Specify the desired precision
+void print_matrix() const {
+    if constexpr (nrows == 1 && ncols == 1) {
+        // Special handling for 1x1 matrices
+        std::cout << matrix[0][0];
+    } else {
+        for (int i = 0; i < nrows; i++) {
+            for (int j = 0; j < ncols; j++) {
+                if constexpr (std::is_same_v<T, float>) {
+                    // Custom precision handling for float numbers
+                    float value = matrix[i][j];
+                    int integerPart = static_cast<int>(value);
+                    float decimalPart = value - integerPart;
+                    int precision = 4; // Specify the desired precision
 
-                // Print the integer part
-                std::cout << integerPart << ".";
+                    // Print the integer part
+                    std::cout << integerPart << ".";
 
-                // Print the decimal part with custom precision
-                for (int k = 0; k < precision; ++k) {
-                    decimalPart *= 10;
-                    int digit = static_cast<int>(decimalPart);
-                    std::cout << digit;
-                    decimalPart -= digit;
+                    // Print the decimal part with custom precision
+                    for (int k = 0; k < precision; ++k) {
+                        decimalPart *= 10;
+                        int digit = static_cast<int>(decimalPart);
+                        std::cout << digit;
+                        decimalPart -= digit;
+                    }
+                    std::cout << " ";
+                } else {
+                    // Print other types as they are
+                    std::cout << matrix[i][j] << " ";
                 }
-                std::cout << " ";
-            } else {
-                // Print other types as they are
-                std::cout << matrix[i][j] << " ";
             }
+            std::cout << std::endl;
         }
-        std::cout << std::endl;
     }
 }
-
-
-
-
 
 
     template<int slice_rows, int slice_cols>

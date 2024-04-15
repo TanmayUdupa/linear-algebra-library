@@ -3,7 +3,10 @@
 using namespace std;
 #include <type_traits>
 
-// Custom implementation of pow function for integer powers
+//Made use of type trait for float type -  4 digit precision will come for any float type test case, this is not applicable
+// for other data types
+
+// Custom implementation of pow function for integer powers to avoid import of cmath library
 template <typename T>
 T custom_pow(T base, int exponent) {
     if (exponent < 0) {
@@ -20,12 +23,10 @@ T custom_pow(T base, int exponent) {
 }
 
 
-
-
 template<typename T>
 struct MatrixTraits {
     static constexpr bool is_floating_point = std::is_floating_point_v<T>;
-    static constexpr int precision = 2;  // Define the precision here
+    static constexpr int precision = 2; 
 };
 
 
@@ -36,7 +37,7 @@ private:
     Matrix<T, ncols, ncols> R;
 
     T custom_sqrt(T value) {
-        T epsilon = static_cast<T>(0.0001);  // Adjust epsilon based on precision requirements
+        T epsilon = static_cast<T>(0.0001); 
         T guess = value / static_cast<T>(2);
         T diff = guess * guess - value;
 
@@ -58,7 +59,6 @@ private:
 
 public:
     MatrixQR(const Matrix<T, nrows, ncols>& A) {
-        // Initialize Q and R matrices
         Q = Matrix<T, nrows, ncols>();
         R = Matrix<T, ncols, ncols>();
 
@@ -72,7 +72,6 @@ public:
            if constexpr (MatrixTraits<T>::is_floating_point) {
                 // Use specialized behavior for floating-point types
                 norm = std::abs(norm);
-                // Example precision control for float
                 if constexpr (MatrixTraits<T>::precision) {
                 T epsilon = custom_pow(T(10), -MatrixTraits<T>::precision);
                     if (norm < epsilon) norm = T(0);
@@ -101,10 +100,6 @@ public:
             }
         }
     }
-
-
-
-
 
     Matrix<T, nrows, ncols> getQ() const {
         return Q;
