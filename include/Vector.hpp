@@ -5,6 +5,7 @@
 // Class Template specialization for 1D Matrix (Vector)
 template <typename T, int nrows>
 class Matrix<T, nrows, 1> {
+static_assert(std::is_arithmetic_v<T>, "Vector elements must be of arithmetic type");
 private:
     T* matrix;
 

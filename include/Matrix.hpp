@@ -15,6 +15,7 @@ concept is_square_matrix = nrows == ncols;
 
 template <typename T, int nrows, int ncols>
 class Matrix {
+static_assert(std::is_arithmetic_v<T>, "Matrix elements must be of arithmetic type");
 private:    
     T** matrix;
 
