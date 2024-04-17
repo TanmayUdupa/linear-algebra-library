@@ -1,7 +1,7 @@
 #pragma once
 #include "Matrix.hpp"
 
-//Matrix addition - uses variadic templates 
+//Matrix addition and subtraction - uses variadic templates 
 //elementwise function takes lambda templates as arguments
 
 // Base case 
@@ -22,19 +22,23 @@ Matrix<T, nrows, ncols> matrix_add(const Matrix<T, nrows, ncols>& mat1, const Ma
     return matrix_add(result, rest...);
 }
 
-
 // Matrix subtraction
+// Base case 
 template <typename T, int nrows, int ncols>
-Matrix<T, nrows, ncols> matrix_subtract(const Matrix<T, nrows, ncols>& mat1, const Matrix<T, nrows, ncols>& mat2) {
-    Matrix<T, nrows, ncols> result;
+Matrix<T, nrows, ncols> matrix_subtract(const Matrix<T, nrows, ncols>& mat) {
+    return mat;
+}
 
+// Recursive case
+template <typename T, int nrows, int ncols, typename... Rest>
+Matrix<T, nrows, ncols> matrix_subtract(const Matrix<T, nrows, ncols>& mat1, const Matrix<T, nrows, ncols>& mat2, const Rest&... rest) {
+    Matrix<T, nrows, ncols> result;
     for (int i = 0; i < nrows; ++i) {
         for (int j = 0; j < ncols; ++j) {
             result[i][j] = mat1[i][j] - mat2[i][j];
         }
     }
-
-    return result;
+    return matrix_subtract(result, rest...);
 }
 
 // Matrix multiplication

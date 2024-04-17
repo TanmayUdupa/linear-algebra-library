@@ -33,6 +33,7 @@ void test_creation_matrix()
     m[1][0] = 69;
     cout << "After editing value of element at (1, 0): " <<  m[1][0] << endl;
     cout << endl;
+    cout << "=================================================================================================================";
 }
 
 void test_creation_vector()
@@ -52,6 +53,7 @@ void test_creation_vector()
     v[1] = 8;
     cout << "After editing value of element at position 1: " << v[1] << endl;
     cout << endl;
+    cout << "=================================================================================================================";
 }
 
 void test_matrix_addition() {
@@ -106,6 +108,7 @@ void test_matrix_addition() {
     cout << "Matrix addition of intMat1, intMat2, intMat3, and intResult1:" << endl;
     intResult3.print_matrix();
     cout << endl;
+    cout << "=================================================================================================================";
 }
 
 void test_matrix_subtraction() {
@@ -133,6 +136,16 @@ void test_matrix_subtraction() {
     intResult_subtract.print_matrix();
 
     cout << endl;
+
+    int arr5[2][2] = { {9, 10}, {11, 12} };
+    Matrix<int, 2, 2> intMat3(arr5);
+
+    auto intResult_subtract_multi = matrix_subtract(intMat1, intMat2, intMat3);
+    cout << "Matrix subtraction of intMat1 by intMat2 and their difference by intMat3:" << endl;
+    intResult_subtract_multi.print_matrix();
+
+    cout << endl;
+    cout << "=================================================================================================================";
 }
 
 void test_matrix_multiplication() {
@@ -162,6 +175,7 @@ void test_matrix_multiplication() {
     cout << "Matrix multiplication result (int):" << endl;
     result2.print_matrix();
     cout << endl;
+    cout << "=================================================================================================================";
 }
 
 void test_vector_addition() {
@@ -192,12 +206,13 @@ void test_vector_addition() {
     Vector<double, 3> vec6(arr5); 
 
     auto result3 = vector_add(vec4, vec5);
-    cout << "Vector addition of vec1 and vec2:" << endl;
+    cout << "Vector addition of vec4 and vec5:" << endl;
     result3.print_vector();
     
     auto result4 = vector_add(vec4, vec5, vec6);
-    cout << "Vector addition of vec1, vec2, and vec3:" << endl;
+    cout << "Vector addition of vec4, vec5, and vec6:" << endl;
     result4.print_vector();
+    cout << "=================================================================================================================";
 }
 
 void test_vector_subtraction() {
@@ -218,8 +233,16 @@ void test_vector_subtraction() {
     Vector<double, 3> vec4(arr4); 
 
     auto result1 = vector_subtract(vec3, vec4);
-    cout << "Vector subtraction of vec1 and vec2:" << endl;
+    cout << "Vector subtraction of vec3 and vec4:" << endl;
     result1.print_vector();
+
+    double arr5[3] = {8.5, 9.5, 10.5};
+    Vector<double, 3> vec5(arr5);
+
+    auto result2 = vector_subtract(vec3, vec4, vec5);
+    cout << "Vector subtraction of vec3 by vec4 and their difference by vec5:" << endl;
+    result2.print_vector();
+    cout << "=================================================================================================================";
 }
 
 
@@ -255,6 +278,7 @@ void test_matrix_transpose() {
     cout << "Transposed square float matrix (square)" << endl;
     squareTransposed.print_matrix();
     cout << endl;
+    cout << "=================================================================================================================";
 }
 
 
@@ -299,6 +323,7 @@ void test_determinant() {
     mat4.print_matrix();
     float det4 = MatrixOperations::determinant(mat4);
     cout << "Determinant of the rectangular matrix (float): " << det4 << endl << "\n";
+    cout << "=================================================================================================================";
 }
 
 
@@ -359,6 +384,7 @@ void test_qr_decomposition() {
     cout << "Upper triangular R matrix (float):" << endl;
     R3.print_matrix();
     cout << endl;
+    cout << "=================================================================================================================";
 }
 
 void test_lu_decomposition()
@@ -373,6 +399,7 @@ void test_lu_decomposition()
     cout << endl;
     cout << "U matrix:" << endl;
     U.print_matrix();
+    cout << "=================================================================================================================";
 }  
 
 void test_element_wise()
@@ -403,6 +430,8 @@ void test_element_wise()
     auto custom_vector= apply_elementwise(v, [](double x) { return x * x + 2.0 * x; });
     cout << "Applying custom lambda function to each element:" << endl;
     custom_vector.print_vector();  
+
+    cout << "=================================================================================================================";
 }
 
 void test_matrix_normalization() {
@@ -436,6 +465,7 @@ void test_matrix_normalization() {
     cout << endl;
     mat3.normalize();
     cout << endl;
+    cout << "=================================================================================================================";
 }
 
 void test_matrix_inverse() {
@@ -447,6 +477,7 @@ void test_matrix_inverse() {
     Matrix<double, 3, 3> inversedMat = inverse(mat);
     cout << "Inverse matrix:" << endl;
     inversedMat.print_matrix();
+    cout << "=================================================================================================================";
 }
 
 void test_matrix_adjoint() {
@@ -460,6 +491,7 @@ void test_matrix_adjoint() {
     Matrix<double,3,3> adjointMat = adjoint(mat);
     cout << "Adjoint matrix:" << endl;
     adjointMat.print_matrix();
+    cout << "=================================================================================================================";
 }
 
 void test_vector_dot_product()
@@ -475,6 +507,7 @@ void test_vector_dot_product()
     vec2.print_vector();
     cout << endl;
     cout << "Dot product of vectors: " << dot_product(vec1, vec2) << endl;
+    cout << "=================================================================================================================";
 }
 
 
